@@ -28,12 +28,12 @@ public class Question extends BaseEntity {
   @Column(columnDefinition = "TEXT")
   private String content;
 
-//  @CreatedDate
-//  private LocalDateTime created;
-
   @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
   private List<Answer> answerList;
 
+  // 날짜 부분 -> BaseEntity로 이동
+
+  // 질문 작성자
   @ManyToOne(fetch = FetchType.LAZY) // 사용자 1명이 질문을 여러개 작성할 수 있음
   @JoinColumn(name = "member_id", nullable = false)
   private Member author;

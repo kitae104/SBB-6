@@ -34,7 +34,7 @@ public class AnswerController {
   public String createAnswer(@PathVariable("id") Long id,
                              @Valid AnswerDto answerDto,
                              BindingResult bindingResult,
-                             Principal principal, // 현재 로그인한 사용자 정보
+                             Principal principal, // 현재 로그인한 사용자 정보(추가)
                              Model model ) {
 
     Question question = questionService.getQuestion(id);
@@ -49,7 +49,7 @@ public class AnswerController {
     }
 
     log.info("====== question : {}, answerDto: {}, member : {}", id, answerDto, member);
-    answerService.create(question, answerDto, member);
+    answerService.create(question, answerDto, member); // 답변 작성자 정보 전달(추가)
 
     return "redirect:/question/detail/" + id;
   }

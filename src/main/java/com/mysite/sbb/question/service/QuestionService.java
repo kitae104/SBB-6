@@ -4,6 +4,8 @@ import com.mysite.sbb.member.entity.Member;
 import com.mysite.sbb.question.dto.QuestionDto;
 import com.mysite.sbb.question.entity.Question;
 import com.mysite.sbb.question.repository.QuestionRepository;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,20 +33,27 @@ public class QuestionService {
   }
 
   public Question getQuestion(Long id) {
-    Optional<Question> question = questionRepository.findById(id);
-    if(question.isPresent()) {
-      return question.get();
-    } else {
-      throw new IllegalArgumentException("id에 해당하는 질문이 없습니다 : " + id);
-    }
+    Question question = questionRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("id에 해당하는 질문이 없습니다 : " + id));
+    return question;
   }
 
   public void create(QuestionDto questionDto, Member member) {
     Question question = Question.builder()
         .subject(questionDto.getSubject())
         .content(questionDto.getContent())
-        .author(member)
+        .author(member) // 질문 작성자 설정(추가)
         .build();
     questionRepository.save(question);
+  }
+
+  public void modify(Question question, String subject, String content) {
+    question.setSubject(subject);
+    question.setContent(content);
+    questionRepository.save(question);
+  }
+
+  public void delete(Question question) {
+    questionRepository.delete(question);
   }
 }

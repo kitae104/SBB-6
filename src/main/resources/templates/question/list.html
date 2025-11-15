@@ -42,6 +42,7 @@
             th:text="${#lists.size(question.answerList)}">
           </span>
         </td>
+        <!-- 작성자 표시 -->
         <td class="text-center">
           <span th:if="${question.author != null}"
                 th:text="${question.author == null ? '익명' : question.author.username}">

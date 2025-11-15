@@ -27,13 +27,11 @@ public class Answer extends BaseEntity {
   @Column(columnDefinition = "TEXT")
   private String content;
 
-//  @CreatedDate
-//  private LocalDateTime created;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "question_id", nullable = false)
   private Question question;
 
+  // 답변 작성자
   @ManyToOne(fetch = FetchType.LAZY) // 사용자 1명이 답변을 여러개 작성할 수 있음
   @JoinColumn(name = "member_id", nullable = false)
   private Member author;

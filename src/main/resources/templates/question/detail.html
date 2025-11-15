@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
 
 <th:block layout:fragment="css">
@@ -26,6 +26,24 @@
           <div th:text="${#temporals.format(question.created, 'yyyy-MM-dd HH:mm')}"></div>
         </div>
       </div>
+      <!-- 질문 수정/삭제 버튼 추가 -->
+      <div class="my-3">
+        <a th:href="@{|/question/modify/${question.id}|}"
+           class="btn btn-sm btn-outline-primary">"
+           sec:authorize="isAuthenticated()"
+           th:if="${question.author != null and
+                  #authentication.getPrincipal().getUsername() == question.author.username}"
+           th:text="수정">수정
+        </a>
+        <!-- 페이지 이동없이 삭제 -->
+        <a  href="javascript:void(0);"
+            th:data-uri="@{|/question/delete/${question.id}|}"
+            class="delete btn btn-sm btn-outline-danger"
+            sec:authorize="isAuthenticated()"
+            th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+            th:text="삭제">삭제
+        </a>
+      </div>
     </div>
   </div>
 
@@ -46,6 +64,7 @@
       </div>
     </div>
   </div>
+
   <!-- 답변 작성 -->
   <form th:action="@{/answer/create/{id}(id=${question.id})}" method="post" class="my-3" th:object="${answerDto}">
     <textarea

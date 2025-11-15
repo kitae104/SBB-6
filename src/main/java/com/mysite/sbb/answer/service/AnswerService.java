@@ -18,7 +18,7 @@ public class AnswerService {
     Answer answer = Answer.builder()
         .content(answerDto.getContent())
         .question(question)
-        .author(member)
+        .author(member) // 답변 작성자 설정
         .build();
 
     answerRespository.save(answer);
