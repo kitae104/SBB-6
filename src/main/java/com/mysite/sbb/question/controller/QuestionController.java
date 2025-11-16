@@ -104,7 +104,9 @@ public class QuestionController {
     if(!question.getAuthor().getUsername().equals(principal.getName())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
     }
+
     questionService.modify(question, questionDto.getSubject(), questionDto.getContent());
+
     return "redirect:/question/detail/" + id;
   }
 
@@ -112,11 +114,15 @@ public class QuestionController {
   @PreAuthorize("isAuthenticated()") // 로그인한 사용자만 접근 가능
   @GetMapping("/delete/{id}")
   public String deleteQuestion(@PathVariable("id") Long id, Principal principal) {
+
     Question question = questionService.getQuestion(id);
+
     if(!question.getAuthor().getUsername().equals(principal.getName())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
     }
+
     questionService.delete(question);
+
     return "redirect:/";
   }
 }
