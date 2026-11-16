@@ -1,5 +1,5 @@
-# SBB-5
-- SBB part5  
+# SBB-6
+- SBB part6  
 - 일부 오류 수정
 - Audit 추가하기
 - DB 반영을 위해 기존 DB 삭제
